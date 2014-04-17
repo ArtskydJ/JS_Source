@@ -1,14 +1,18 @@
-﻿var l = [
-	"var l = [",
+﻿var lines = [
+	"var lines = [",
 	"]",
-	"var d = [0, 0, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6]",
-	"var b = [0, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0]",
-	"for (var i=0; i<d.length; i++) {",
-	"	console.log((b[i]?String.fromCharCode(9,34):'') + l[d[i]] + (b[i]?String.fromCharCode(34)+(b[i]<2?',':''):''))",
+	"var lineOrder  = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8]",
+	"var printQuote = [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0]",
+	"for (var i in lineOrder) {",
+	"	console.log((printQuote[i]?String.fromCharCode(9,34):'')",
+	"		+ lines[lineOrder[i]]",
+	"		+ (printQuote[i]?String.fromCharCode(34)+(printQuote[i]<2?',':''):''))",
 	"}"
 ]
-var d = [0, 0, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6]
-var b = [0, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0]
-for (var i=0; i<d.length; i++) {
-	console.log((b[i]?String.fromCharCode(9,34):'') + l[d[i]] + (b[i]?String.fromCharCode(34)+(b[i]<2?',':''):''))
+var lineOrder  = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8]
+var printQuote = [0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+for (var i in lineOrder) {
+	console.log((printQuote[i]?String.fromCharCode(9,34):'')
+		+ lines[lineOrder[i]]
+		+ (printQuote[i]?String.fromCharCode(34)+(printQuote[i]<2?',':''):''))
 }

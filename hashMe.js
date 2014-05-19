@@ -1,8 +1,8 @@
-var shasum = require('crypto').createHash('md5')
+var md5 = require('crypto').createHash('md5')
 
 require('fs').ReadStream('./hashMe.txt').on('data', function(d) {
-	shasum.update(d)
+	md5.update(d)
 }).on('end', function() {
-	var hash = shasum.digest('hex')
+	var hash = md5.digest('hex')
     console.log("Hash:\n"+hash);
 })

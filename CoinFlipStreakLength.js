@@ -30,18 +30,18 @@ for (i=0; streak<targetStreak; i++) {
 	
 	if (targetStreak<=12) {
 		console.log(name[flip])
-		if (lastFlip != flip)
-			if (streak>secondLongestStreak)
-				secondLongestStreak = streak
+		if (lastFlip != flip && streak>secondLongestStreak)
+			secondLongestStreak = streak
 	}
 	
-	if (lastFlip != flip)
-		streak = 1
-	else
-		streak += 1
+	streak = (lastFlip != flip) ? 1 : streak+1
 }
 
-console.log("After " + addCommas( i.toString() ) + " coin flips, "
-	+ name[flip].toLowerCase() + " was flipped " + targetStreak + " times in a row.")
+console.log("After %d coin flips, %d was flipped %d times in a row.",
+	addCommas(i.toString()), name[flip].toLowerCase(), targetStreak)
 if (targetStreak<=12)
 	console.log("The second longest streak was " + secondLongestStreak + " flips.")
+
+while(true){
+
+}

@@ -24,7 +24,7 @@ function optsToArray(opts) {
 	if (opts.numbers)		result += strs.numbers
 	if (opts.special)		result += strs.special
 	if (opts.whitespace)	result += strs.whitespace
-	console.log("chars: '%s'", result)
+	//console.log("chars: '%s'", result)
 	return result.split('')
 }
 
@@ -60,8 +60,6 @@ function replaceNextChar(str, ind, chars) {
 	}
 
 	var nc = nextChar(str, ind, chars)
-	//if (nc.end)
-		//console.log('hey')
 	return {
 		str: replaceChar(str, ind, nc.chr),
 		end: nc.end
@@ -73,31 +71,22 @@ module.exports = function Brute(constructorOpts) {
 		var opts = xtend(defaultOpts, constructorOpts, thisOpts)
 		var chars = optsToArray( opts )
 		var result = ''
-		var modIndex = 1
 
-		var tArr = ['a', 'b', 'c']
-		var gen = generate(3, tArr)
-		for(var b = 0; b < 27; b++) {
-			gen = replaceNextChar(gen, 2, tArr).str
-			console.log('gen:', gen)
-		}
-
-		for(var len=1; len<=opts.maxLen; len++) {
-			modIndex = len
+		for(var len=1; len<=opts.maxLen && !strEqualsHash(result, hash); len++) {
 			result = generate(len, chars)
 
-			for(var i=0; i<Math.pow(chars.length, len+1); i++) {
+			for(var i=0; i<Math.pow(chars.length, len+1) && !strEqualsHash(result, hash); i++) {
 				var rnc = {end:true}
-				for(modIndex = len; rnc.end; modIndex--) { // && modIndex>=0
-
-					rnc = replaceNextChar(result, modIndex, chars)
+				for(var chrInd = len; rnc.end; chrInd--) { // && chrInd>=0
+					rnc = replaceNextChar(result, chrInd, chars)
 					result = rnc.str
 				}
-				//console.log('result: %s\t%s', result, (modIndex<0)?'MOD':'rnc')
+
+				//console.log('result: %s\t%s', result, (chrInd<0)?'MOD':'rnc') //chrInd is out of scope
 			}
-		console.log('len:', len)
+			//console.log('len:', len)
 		}
-		console.log('done')
+		//console.log('done')
 		return result
 	}
 }

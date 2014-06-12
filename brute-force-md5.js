@@ -1,4 +1,8 @@
 ﻿var md5 = require('md5-jkmyers')
+var crypto = require('crypto')
+/*var md5 = function(str) {
+	return crypto.createHash('md5').update(str).digest('hex')
+}*/
 var xtend = require('xtend')
 var chars = []
 
@@ -25,7 +29,6 @@ function optsToArray(opts) {
 	if (opts.numbers)		result += strs.numbers
 	if (opts.special)		result += strs.special
 	if (opts.whitespace)	result += strs.whitespace
-	//console.log("chars: '%s'", result)
 	return result.split('')
 }
 
@@ -37,18 +40,15 @@ function generate(length) {
 }
 
 function Rnc(str, charEnd, veryEnd) {
-	if (typeof str === 'object')
-		return {
-			str: (str.str || ''),
-			charEnd: (str.charEnd || false),
-			veryEnd: (str.veryEnd || false)
-		}
-	else
-		return {
-			str: (str || ''),
-			charEnd: (charEnd || false),
-			veryEnd: (veryEnd || false)
-		}
+	return (typeof str === 'object') ? {
+		str:		(typeof str.str !== 'undefined')? str.str : '',
+		charEnd:	(typeof str.charEnd !== 'undefined')? str.charEnd : false,
+		veryEnd:	(typeof str.veryEnd !== 'undefined')? str.veryEnd : false
+	} : {
+		str:		(typeof str !== 'undefined')? str : '',
+		charEnd:	(typeof charEnd !== 'undefined')? charEnd : false,
+		veryEnd:	(typeof veryEnd !== 'undefined')? veryEnd : false
+	}
 }
 
 function nextChar(str, ind) {
@@ -67,15 +67,12 @@ function replaceChar(str, ind, newChar) {
 
 function replaceNextChar(str, ind) {
 	var nc = nextChar(str, ind)
-	var tStr = replaceChar(str, ind, nc.chr)
-	if (nc.end) {
-		if (ind===0)
-			tStr = generate(tStr.length+1)
-		else
-			tStr = replaceNextChar(tStr, ind-1, nc.chr).str //not sure about nc.chr in this context
-	}
+	var str = replaceChar(str, ind, nc.chr)
+	if (nc.end)
+		if (ind===0)	str = generate(str.length+1)
+		else			str = replaceNextChar(str, ind-1, nc.chr).str
 	return {
-		str: tStr,
+		str: str,
 		charEnd: nc.end,
 		veryEnd: nc.end && ind===0
 	}
@@ -98,12 +95,15 @@ function iterate(hash, maxLen) {
 				status.running = false
 		}
 	}
-	return rnc.str
+	if (status.foundHash)
+		return rnc.str
+	else
+		return Error("No string found for hash %s", hash)
 }
 
 module.exports = function Brute(constructorOpts) {
-	return function brute(hash, thisOpts) {
-		var opts = xtend(defaultOpts, constructorOpts, thisOpts)
+	return function brute(hash, opts) {
+		opts = xtend(defaultOpts, constructorOpts, opts)
 		chars = optsToArray( opts )
 		return iterate(hash, opts.maxLen)
 	}

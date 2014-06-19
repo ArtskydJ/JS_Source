@@ -1,5 +1,5 @@
 ﻿//https://github.com/substack/dnode
-//Code copied from readme.md
+//Code copied from the readme
 
 var dnode = require('dnode');
 var server = dnode({
@@ -7,4 +7,4 @@ var server = dnode({
         cb(s.replace(/[aeiou]{2,}/, 'oo').toUpperCase())
     }
 });
-server.listen(5004);
+server.listen(8080);

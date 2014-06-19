@@ -1,5 +1,5 @@
 ﻿//https://github.com/substack/dnode
-//Code copied from readme.md
+//Code copied from the readme
 
 var dnode = require('dnode');
 

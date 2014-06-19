@@ -1,0 +1,1 @@
+browserify dnode-client-browser.js -o static/dnode-client-browserified.js

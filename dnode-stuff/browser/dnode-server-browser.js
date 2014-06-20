@@ -17,7 +17,7 @@ var sock = shoe(function (stream) {
         },
         wuzzup : function(cb) {
         	console.log('they called "wuzzup"')
-        	cb()
+        	cb('server says "hello"')
         }
     });
     d.pipe(stream).pipe(d);

@@ -8,18 +8,25 @@ var shoe = require('shoe');
 var dnode = require('dnode');
 
 domready(function () {
-    var result = document.getElementById('result');
-    var wuzzup = document.getElementById('wuzzup')
     var stream = shoe('/dnode');
-
-    if (wuzzup) //if button pressed
-    	remote.whatIsUp()
 
     var d = dnode();
     d.on('remote', function (remote) {
-        remote.transform('beep', function (s) {
-            result.textContent = 'beep => ' + s;
-        });
+        window.wuzzup = remote.wuzzup.bind(remote);
+		remote.transform('beep', function (s) {
+			console.log('beep => ' + s);
+			//d.end();
+		})
     });
     d.pipe(stream).pipe(d);
 });
+
+window.globalFunction = function globalFunction() {
+	
+	if (window.wuzzup) {
+		window.wuzzup(function(str) {
+			console.log(str)
+		})
+	} else
+		throw new Error("window wuzzup is not existent")
+}

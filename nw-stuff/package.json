@@ -1,0 +1,7 @@
+{
+	"name": "test_webtorrent_inside_node-webkit",
+	"main": "index.html",
+	"scripts": {
+		"start": "nw ."
+	}
+}

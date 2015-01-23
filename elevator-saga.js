@@ -1,31 +1,20 @@
 {
     init: function(elevators, floors) {
+        function rnd() {
+            return elevators[Math.floor(Math.random() * elevators.length)]
+        }
+        elevators.forEach(function (elev, i) {
+            elev.on('idle', function () {
+                elev.goToFloor((elev.currentFloor() + i) % elevators.length + 1)
+            }
+        })
+
         floors.forEach(function (flr) {
-            flr.on('up_button_pressed', function onup() {
-                //check for empty-enough elevators going up and past or to this floor
-                var find = elevators.map(function (elev) {
-                    return (
-                        (elev.goingUpIndicator()? 100 : 1) *
-                        (4 - Math.round(elev.loadFactor * 4))
-                    )
-                }).reduce(function (memo, curr, i) {
-                    return (curr > memo.like) ? {elev: i, like: curr} : memo
-                }, {elev:0, like:0})
-                console.log(find)
-                elevators[ find.elev ].goToFloor( flr.floorNum() )
+            flr.on('up_button_pressed', function () {
+                rnd().goToFloor( flr.floorNum() )
             })
-            flr.on('down_button_pressed', function onup() {
-                //check for empty-enough elevators going up and past or to this floor
-                var find = elevators.map(function (elev) {
-                    return (
-                        (elev.goingDownIndicator()? 100 : 1) *
-                        (4 - Math.round(elev.loadFactor * 4))
-                    )
-                }).reduce(function (memo, curr, i) {
-                    return (curr > memo.like) ? {elev: i, like: curr} : memo
-                }, {elev:0, like:0})
-                console.log(find)
-                elevators[ find.elev ].goToFloor( flr.floorNum() )
+            flr.on('down_button_pressed', function () {
+                rnd().goToFloor( flr.floorNum() )
             })
         })
     },

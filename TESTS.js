@@ -9,8 +9,6 @@ var draw = function() {
 };
 
 
-
-
 var WidthBlocks=20;
 var HeightBlocks=20;
 var nOfBlocks=(WidthBlocks*HeightBlocks);
